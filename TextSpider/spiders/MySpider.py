@@ -8,68 +8,40 @@ from TextSpider.items import TextspiderItem
 class MyspiderSpider(scrapy.Spider):
     name = 'MySpider'
     allowed_domains = ['www.chinadaily.com.cn']
-    start_urls = ['http://www.chinadaily.com.cn/a/201906/04/WS5cf54b0ca310519142700d0b.html',] ##最后面有个逗号
+    start_urls = ['http://www.chinadaily.com.cn/',] ##最后面有个逗号
     MAX_PAGE = 100
     curPage = 0
 
     def parse(self, response):
 
+        request = response.request.url
         item = TextspiderItem()
-        item["url"] = response.request.url
+        item["url"] = request
 
-        if response.request.url.endswith("html") or response.request.url.endswith("htm"):
+        if request.endswith("html") or request.endswith("htm"):
             # 记录爬取页面数量
             self.curPage += 1
-            if self.curPage > self.MAX_PAGE:
-                return
             print("=======================正在爬取第 %d 个页面......" % self.curPage)
-
-            p_content = ""
             content_list = response.xpath('//p/text()').extract()
+            p_content = ""
             for c in content_list:
                  p_content += c.strip()
 
             item["content"] = p_content
-            yield item
+            # 如果不是图片页面
+            if p_content.startswith("Copyright") is False:
+                yield item
 
         a_list = response.xpath('//a/@href').extract()
         for a in a_list:
+            if self.curPage < self.MAX_PAGE:
+                if a.startswith("//"):
+                    a = a[2:]
+                    a = "http://" + a
+                    ##这种格式开头的网页才是英文新闻的内容，否则有些是中文的，或者不是内容详情页面
+                    if a.startswith("http://www.chinadaily.com.cn/a/"):
+                        yield Request(url=a, callback=self.parse)
 
-            if a.startswith("//"):
-                a = a[2:]
-                a = "http://" + a
-                yield Request(url=a, callback=self.parse, dont_filter=True)
-
-
-        # p_content = ""
-        # a_content = ""
-
-        #获取页面文本数据
-        # divClasses = ["//div[@class='tle-header__intro-text']","//div[@class='tle-section__description']"]
-        # for divClass in divClasses:
-        #     divs = response.xpath(divClass)
-        #     for i in range(len(divs)):
-        #         p_list = divs[i].xpath('//p/text()').extract()
-        #         for p in p_list:
-        #             p_content += p.strip()
-        #         a_list = divs[i].xpath('//p/a/text()').extract()
-        #         for a in a_list:
-        #             a_content += (a.strip() + " ")
-        #
-        # item = TextspiderItem()
-        # item["url"] = response.request.url
-        # item["content"] = p_content + a_content
-
-        # 获取页面链接
-        # a_list = response.xpath('//a/@href').extract()
-        # for link in a_list:
-        #     index = link.find('#')
-        #     link = link[0:index]
-        #     if link.startswith("http"):
-        #         yield Request(url=link,callback=self.parse,dont_filter=True)
-        #     else:
-        #         url = self.url_head + link
-        #         yield Request(url=url, callback=self.parse, dont_filter=True)
 
 
 
