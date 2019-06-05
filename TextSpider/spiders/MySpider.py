@@ -8,9 +8,25 @@ from TextSpider.items import TextspiderItem
 class MyspiderSpider(scrapy.Spider):
     name = 'MySpider'
     allowed_domains = ['www.chinadaily.com.cn']
-    start_urls = ['http://www.chinadaily.com.cn/',] ##最后面有个逗号
-    MAX_PAGE = 100
+    start_urls = ['http://www.chinadaily.com.cn/',
+                  'http://www.chinadaily.com.cn/china',
+                  'http://www.chinadaily.com.cn/world',
+                  'http://www.chinadaily.com.cn/business,'
+                  'http://www.chinadaily.com.cn/life',
+                  'http://www.chinadaily.com.cn/culture',
+                  'http://www.chinadaily.com.cn/travel',
+                  'http://www.chinadaily.com.cn/sports',
+                  'http://www.chinadaily.com.cn/opinion',
+                  'http://www.chinadaily.com.cn/regional',
+                  ] ##最后面有个逗号
+    #MAX_PAGE = 100
     curPage = 0
+
+    def start_requests(self):
+
+        for start_url in self.start_urls:
+            yield Request(start_url, callback=self.parse)
+
 
     def parse(self, response):
 
@@ -34,7 +50,7 @@ class MyspiderSpider(scrapy.Spider):
 
         a_list = response.xpath('//a/@href').extract()
         for a in a_list:
-            if self.curPage < self.MAX_PAGE:
+            #if self.curPage < self.MAX_PAGE:
                 if a.startswith("//"):
                     a = a[2:]
                     a = "http://" + a

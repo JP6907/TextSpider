@@ -99,7 +99,7 @@ SCHEDULER = "scrapy_redis_bloomfilter.scheduler.Scheduler"
 DUPEFILTER_CLASS = "scrapy_redis_bloomfilter.dupefilter.RFPDupeFilter"
 
 # Redis URL
-REDIS_URL = 'redis://zjp@127.0.0.1:6379'  #不需要密码认证
+REDIS_URL = 'redis://zjp@116.56.129.160:6379'  #不需要密码认证
 # REDIS_URL = 'redis://:zjp@127.0.0.1:6379' #用户名前面有 : ，则需要密码认证
 
 #REDIS_PARAMS  = {'password': '123456'}
