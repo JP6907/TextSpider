@@ -64,10 +64,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    #'TextSpider.pipelines.TextspiderPipeline': 300,
-#    'TextSpider.spiders.JsonCreatePipeline.JsonCreatePipeline': 300,
-# }
+ITEM_PIPELINES = {
+   #'TextSpider.pipelines.TextspiderPipeline': 300,
+   'TextSpider.spiders.JsonCreatePipeline.JsonCreatePipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -90,25 +90,25 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-# ################### ScrapyRedisBloomFilter ########################
+################### ScrapyRedisBloomFilter ########################
 
-# Ensure use this Scheduler
-# SCHEDULER = "scrapy_redis_bloomfilter.scheduler.Scheduler"
-#
-# # Ensure all spiders share same duplicates filter through redis
-# DUPEFILTER_CLASS = "scrapy_redis_bloomfilter.dupefilter.RFPDupeFilter"
-#
-# # Redis URL
-# REDIS_URL = 'redis://zjp@116.56.129.160:6379'  #不需要密码认证
-# # REDIS_URL = 'redis://:zjp@127.0.0.1:6379' #用户名前面有 : ，则需要密码认证
-#
-# #REDIS_PARAMS  = {'password': '123456'}
-#
-# # Number of Hash Functions to use, defaults to 6
-# BLOOMFILTER_HASH_NUMBER = 6
-#
-# # Redis Memory Bit of Bloomfilter Usage, 30 means 2^30 = 128MB, defaults to 30
-# BLOOMFILTER_BIT = 30
-#
-# # Persist
-# SCHEDULER_PERSIST = True
+#Ensure use this Scheduler
+SCHEDULER = "scrapy_redis_bloomfilter.scheduler.Scheduler"
+
+# Ensure all spiders share same duplicates filter through redis
+DUPEFILTER_CLASS = "scrapy_redis_bloomfilter.dupefilter.RFPDupeFilter"
+
+# Redis URL
+REDIS_URL = 'redis://zjp@localhost:6379'  #不需要密码认证
+# REDIS_URL = 'redis://:zjp@127.0.0.1:6379' #用户名前面有 : ，则需要密码认证
+
+#REDIS_PARAMS  = {'password': '123456'}
+
+# Number of Hash Functions to use, defaults to 6
+BLOOMFILTER_HASH_NUMBER = 6
+
+# Redis Memory Bit of Bloomfilter Usage, 30 means 2^30 = 128MB, defaults to 30
+BLOOMFILTER_BIT = 30
+
+# Persist
+SCHEDULER_PERSIST = True
