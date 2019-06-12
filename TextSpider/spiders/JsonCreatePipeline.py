@@ -10,7 +10,7 @@ class JsonCreatePipeline(object):
         调用spider_closed信号量，当爬虫关闭时候，关闭文件
     """
     def __init__(self):
-        self.file = codecs.open('GlobalTimes.json', 'a+', encoding="utf-8")
+        self.file = codecs.open('Newsweek.json', 'a+', encoding="utf-8")
 
     def process_item(self, item, spider):
         lines = json.dumps(dict(item), ensure_ascii=False) + "\n"
